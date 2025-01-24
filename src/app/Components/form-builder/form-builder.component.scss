@@ -1,0 +1,84 @@
+/* Main container to manage layout */
+.main-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar styles */
+mat-sidenav {
+  width: 250px;
+  transition: width 0.3s ease;
+}
+
+mat-sidenav[mode="over"] {
+  position: absolute;
+  z-index: 1000;
+}
+
+/* Content area */
+.content {
+  padding: 16px;
+  margin-top: 64px; /* Adjust based on header height */
+}
+
+/* Footer styles */
+.footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 8px 0;
+  background-color: #f5f5f5;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  mat-sidenav {
+    width: 200px;
+  }
+
+  mat-sidenav[mode="side"] {
+    display: none;
+  }
+
+  .content {
+    padding: 8px;
+    margin-top: 56px; /* Adjust for smaller headers on mobile */
+  }
+
+  .footer {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .content {
+    margin-left: 250px;
+  }
+
+  .footer {
+    font-size: 1rem;
+  }
+}
+
+/* Set a specific width for mat-form-field */
+mat-form-field {
+    width: 50%; /* Adjust the percentage or set a fixed width like 400px */
+    display: inline-block; /* To allow alignment adjustments if needed */
+  }
+  
+  /* Center the fields (optional) */
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Change to center for center alignment */
+  }
+  
+  /* If additional styles for mat-form-field-wrapper are needed */
+  .mat-form-field-wrapper {
+    max-width: 100%; /* Ensure wrapper width matches the field */
+  }
+  .additional-field-button {
+    margin-right: 15px; /* Adjust the spacing as needed */
+}
