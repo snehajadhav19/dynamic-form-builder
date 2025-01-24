@@ -1,0 +1,17 @@
+<div [formGroup]="field">
+    <ng-container [ngSwitch]="type">
+      <div *ngSwitchCase="'text'">
+        <input [placeholder]="field.get('placeholder')?.value" />
+      </div>
+      <div *ngSwitchCase="'textarea'">
+        <textarea [placeholder]="field.get('placeholder')?.value"></textarea>
+      </div>
+      <div *ngSwitchCase="'dropdown'">
+        <select>
+          <option *ngFor="let option of field.get('options')?.value">{{ option }}</option>
+        </select>
+      </div>
+      <!-- Add similar blocks for checkbox, radio -->
+    </ng-container>
+  </div>
+  

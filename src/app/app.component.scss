@@ -1,0 +1,34 @@
+/* Main container to manage layout */
+.main-container {
+    height: 100vh;
+  }
+  
+  /* Sidebar styles */
+  mat-sidenav {
+    width: 250px;
+  }
+  
+  /* Content area */
+  .content {
+    padding: 16px;
+  }
+  
+  /* Footer styles */
+  .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    mat-sidenav {
+      width: 200px;
+    }
+  
+    mat-sidenav[mode="side"] {
+      display: none;
+    }
+  }
+  
