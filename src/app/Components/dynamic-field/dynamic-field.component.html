@@ -1,17 +1,32 @@
-<div [formGroup]="field">
-    <ng-container [ngSwitch]="type">
-      <div *ngSwitchCase="'text'">
-        <input [placeholder]="field.get('placeholder')?.value" />
-      </div>
-      <div *ngSwitchCase="'textarea'">
-        <textarea [placeholder]="field.get('placeholder')?.value"></textarea>
-      </div>
-      <div *ngSwitchCase="'dropdown'">
-        <select>
-          <option *ngFor="let option of field.get('options')?.value">{{ option }}</option>
-        </select>
-      </div>
-      <!-- Add similar blocks for checkbox, radio -->
-    </ng-container>
-  </div>
-  
+<div [formGroup]="field">  <!-- Ensure field is a FormGroup here -->
+  <ng-container [ngSwitch]="type">
+    <div *ngSwitchCase="'text'">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ field.get('label')?.value }}</mat-label>
+        <input matInput [formControlName]="'value'" [placeholder]="field.get('placeholder')?.value" />
+      </mat-form-field>
+    </div>
+    <div *ngSwitchCase="'textarea'">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ field.get('label')?.value }}</mat-label>
+        <textarea matInput [formControlName]="'value'" [placeholder]="field.get('placeholder')?.value"></textarea>
+      </mat-form-field>
+    </div>
+    <div *ngSwitchCase="'dropdown'">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ field.get('label')?.value }}</mat-label>
+        <mat-select [formControlName]="'value'">
+          <mat-option *ngFor="let option of field.get('options')?.value" [value]="option">{{ option }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div *ngSwitchCase="'checkbox'">
+      <mat-checkbox formControlName="value">{{ field.get('label')?.value }}</mat-checkbox>
+    </div>
+    <div *ngSwitchCase="'radio'">
+      <mat-radio-group [formControlName]="'value'">
+        <mat-radio-button *ngFor="let option of field.get('options')?.value" [value]="option">{{ option }}</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </ng-container>
+</div>

@@ -73,16 +73,18 @@ export class FormBuilderComponent implements OnInit {
   }
 
   // Add a user-defined dynamic field
-  addDynamicField(type: string) {
-    const fieldGroup = this.fb.group({
-      type: [type],
-      label: ['', Validators.required],
-      placeholder: [''],
-      options: this.fb.array(type === 'dropdown' || type === 'radio' ? [''] : []),
-      required: [false],
-    });
-    this.additionalFields.push(fieldGroup);
-  }
+ addDynamicField(type: string) {
+  const fieldGroup = this.fb.group({
+    type: [type],
+    label: ['', Validators.required],
+    placeholder: [''],
+    options: this.fb.array(type === 'dropdown' || type === 'radio' ? [''] : []), // Ensure options for dropdown/radio are created
+    required: [false],
+    value: [false]  // Default value for checkbox
+  });
+  this.additionalFields.push(fieldGroup);
+}
+
 
   // Remove a user-defined dynamic field
   removeDynamicField(index: number) {
@@ -91,12 +93,30 @@ export class FormBuilderComponent implements OnInit {
 
   // Handle form submission
   onSubmit() {
-    if (this.userForm.valid) {
+    if (this.userForm.invalid) {
+      // Check if every field in the form is untouched and empty
+      const allFieldsEmpty = Object.keys(this.userForm.controls).every(key => {
+        const control = this.userForm.get(key);
+  
+        // If it's a form array (for contacts or dynamic fields), check each control inside it
+        if (control instanceof FormArray) {
+          return control.controls.every(c => c.pristine || c.value === '' || c.value === null);
+        }
+  
+        // Otherwise, check the individual control
+        return control?.pristine || control?.value === '' || control?.value === null;
+      });
+  
+      // Show the alert only once if all fields are empty
+      if (allFieldsEmpty) {
+        alert('All fields are required to fill.');
+      }
+    } else {
+      // If the form is valid
       console.log('Form Data:', this.userForm.value);
       alert('Form submitted successfully!');
-    } else {
-      alert('Please fix the errors in the form.');
     }
   }
+  
   
 }

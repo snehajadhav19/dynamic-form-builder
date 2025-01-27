@@ -1,96 +1,102 @@
 <div>
     <h2>User Form</h2>
-
+  
     <!-- Main User Form -->
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-        <!-- Name -->
-        <mat-form-field appearance="fill">
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" placeholder="Enter your name" />
-            <mat-error *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
-                Name is required and must be at least 3 characters.
+      <!-- Name -->
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter your name" />
+        <mat-error *ngIf="userForm.get('name')?.invalid && userForm.get('name')?.touched">
+          Name is required and must be at least 3 characters.
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Email -->
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" placeholder="Enter your email" />
+        <mat-error *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
+          Please enter a valid email address.
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Address -->
+      <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <textarea matInput formControlName="address" placeholder="Enter your address"></textarea>
+        <mat-error *ngIf="userForm.get('address')?.invalid && userForm.get('address')?.touched">
+          Address is required.
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Contact Numbers -->
+      <h3>Contact Details</h3>
+      <div formArrayName="contacts">
+        <div *ngFor="let contact of contacts.controls; let i = index" [formGroupName]="i">
+          <mat-form-field appearance="fill">
+            <mat-label>Contact Number</mat-label>
+            <input matInput formControlName="contactNumber" placeholder="Enter contact number" />
+            <mat-error *ngIf="contact.get('contactNumber')?.invalid && contact.get('contactNumber')?.touched">
+              Contact number is required and must be numeric.
             </mat-error>
-        </mat-form-field>
-
-        <!-- Email -->
-        <mat-form-field appearance="fill">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" placeholder="Enter your email" />
-            <mat-error *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched">
-                Please enter a valid email address.
-            </mat-error>
-        </mat-form-field>
-
-        <!-- Address -->
-        <mat-form-field appearance="fill">
-            <mat-label>Address</mat-label>
-            <textarea matInput formControlName="address" placeholder="Enter your address"></textarea>
-            <mat-error *ngIf="userForm.get('address')?.invalid && userForm.get('address')?.touched">
-                Address is required.
-            </mat-error>
-        </mat-form-field>
-
-        <!-- Contact Numbers -->
-        <h3>Contact Details</h3>
-        <div formArrayName="contacts">
-            <div *ngFor="let contact of contacts.controls; let i = index" [formGroupName]="i">
-                <mat-form-field appearance="fill">
-                    <mat-label>Contact Number</mat-label>
-                    <input matInput formControlName="contactNumber" placeholder="Enter contact number" />
-                    <mat-error *ngIf="contact.get('contactNumber')?.invalid && contact.get('contactNumber')?.touched">
-                        Contact number is required and must be numeric.
-                    </mat-error>
-                </mat-form-field>&nbsp;&nbsp;
-                <button mat-raised-button color="warn" (click)="removeContact(i)">Remove Contact</button>
-            </div>
+          </mat-form-field>
+          &nbsp;&nbsp;
+          <button mat-raised-button color="warn" (click)="removeContact(i)" type="button">Remove Contact</button>
         </div>
-        <button mat-raised-button color="primary" (click)="addContact()">Add Contact</button>
-
-        <!-- Dynamic Fields -->
-        <h3>Additional Fields</h3>
-        <div>
-            <button *ngFor="let type of fieldTypes" mat-raised-button color="primary" (click)="addDynamicField(type)" class="additional-field-button">
-                Add {{ type }}
-            </button>
-        </div>
-        <div formArrayName="additionalFields">
-            <div *ngFor="let field of additionalFields.controls; let i = index" [formGroupName]="i">
-                <mat-card>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Label</mat-label>
-                        <input matInput formControlName="label" placeholder="Enter field label" />
-                    </mat-form-field>&nbsp;&nbsp;
-
-                    <mat-form-field appearance="fill">
-                        <mat-label>Placeholder</mat-label>
-                        <input matInput formControlName="placeholder" placeholder="Enter field placeholder" />
-                    </mat-form-field>&nbsp;&nbsp;
-
-                    <mat-checkbox formControlName="required">Required</mat-checkbox>
-                    <!-- Options for Dropdown/Radio -->
-                    <div *ngIf="field.get('type')?.value === 'dropdown' || field.get('type')?.value === 'radio'">
-                        <h4>Options</h4>
-                        <div *ngIf="getOptionsArray(field) as options">
-                            <div *ngFor="let option of options.controls; let j = index">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Option {{ j + 1 }}</mat-label>
-                                    <input matInput [formControlName]="j" placeholder="Enter option" />
-                                </mat-form-field>
-                            </div>
-                            <button mat-raised-button color="primary" (click)="addOption(field)">
-                                Add Option
-                            </button>
-                        </div>
-                    </div>&nbsp;&nbsp;
-
-
-
-                    <button mat-raised-button color="warn" (click)="removeDynamicField(i)">Remove Field</button>
-                </mat-card>
+      </div>
+      <button mat-raised-button color="primary" (click)="addContact()" type="button">Add Contact</button>
+  
+      <!-- Dynamic Fields -->
+      <h3>Additional Fields</h3>
+      <div>
+        <button *ngFor="let type of fieldTypes" mat-raised-button color="primary" (click)="addDynamicField(type)" type="button" class="additional-field-button">
+          Add {{ type }}
+        </button>
+      </div>
+      <div formArrayName="additionalFields">
+        <div *ngFor="let field of additionalFields.controls; let i = index" [formGroupName]="i">
+          <mat-card>
+            <mat-form-field appearance="fill">
+              <mat-label>Label</mat-label>
+              <input matInput formControlName="label" placeholder="Enter field label" />
+            </mat-form-field>
+            &nbsp;&nbsp;
+  
+            <mat-form-field appearance="fill">
+              <mat-label>Placeholder</mat-label>
+              <input matInput formControlName="placeholder" placeholder="Enter field placeholder" />
+            </mat-form-field>
+            &nbsp;&nbsp;
+  
+            <mat-checkbox formControlName="required">Required</mat-checkbox>
+            <!-- Options for Dropdown/Radio -->
+            <div *ngIf="field.get('type')?.value === 'dropdown' || field.get('type')?.value === 'radio'">
+              <h4>Options</h4>
+              <div *ngIf="getOptionsArray(field) as options">
+                <div *ngFor="let option of options.controls; let j = index">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Option {{ j + 1 }}</mat-label>
+                    <input matInput [formControlName]="j" placeholder="Enter option" />
+                  </mat-form-field>
+                </div>
+                <button mat-raised-button color="primary" (click)="addOption(field)" type="button">
+                  Add Option
+                </button>
+              </div>
             </div>
-        </div><br>
+            &nbsp;&nbsp;
+  
+            <button mat-raised-button color="warn" (click)="removeDynamicField(i)" type="button">Remove Field</button>
+          </mat-card>
+        </div>
+      </div><br>
+  
+      <!-- Submit Button -->
 
-        <!-- Submit Button -->
+      <div class="submit-button-container">
         <button mat-raised-button color="accent" type="submit">Submit Form</button>
+      </div>
     </form>
-</div>
+  </div>
+  
