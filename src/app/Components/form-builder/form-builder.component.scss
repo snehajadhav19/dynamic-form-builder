@@ -73,6 +73,8 @@ mat-form-field {
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Change to center for center alignment */
+    max-height: 80vh;  /* Limit form height */
+    overflow-y: auto;
   }
   
   /* If additional styles for mat-form-field-wrapper are needed */
@@ -81,4 +83,9 @@ mat-form-field {
   }
   .additional-field-button {
     margin-right: 15px; /* Adjust the spacing as needed */
+}
+.submit-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
